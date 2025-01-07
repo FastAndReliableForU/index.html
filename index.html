@@ -29,11 +29,55 @@
             gap: 20px;
             padding: 20px;
         }
-        .gallery img {
+        .card {
             width: 250px;
-            height: auto;
+            background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: left;
+        }
+        .card img {
+            width: 100%;
+            height: auto;
+        }
+        .card-content {
+            padding: 15px;
+        }
+        .card-title {
+            font-size: 1.5em;
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        .card-price {
+            font-size: 1.2em;
+            margin: 10px 0;
+            color: #b68958;
+        }
+        .card-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .card-buttons button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .buy-button {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .details-button {
+            background-color: #f0ad4e;
+            color: #fff;
+        }
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #eaeaea;
+            color: #5a5a5a;
         }
     </style>
 </head>
@@ -43,11 +87,50 @@
         <p>Добро пожаловать! Мы предлагаем вам стильные товары и уникальные предложения.</p>
         <p>Следите за обновлениями и выбирайте лучшее!</p>
     </div>
+    
+    <!-- Карточки товаров -->
     <div class="gallery">
-        <img src="https://via.placeholder.com/250" alt="Item 1">
-        <img src="https://via.placeholder.com/250" alt="Item 2">
-        <img src="https://via.placeholder.com/250" alt="Item 3">
-        <img src="https://via.placeholder.com/250" alt="Item 4">
+        <div class="card">
+            <img src="https://via.placeholder.com/250" alt="Item 1">
+            <div class="card-content">
+                <div class="card-title">Товар 1</div>
+                <div class="card-price">1000 грн</div>
+                <div class="card-buttons">
+                    <button class="details-button">Подробнее</button>
+                    <button class="buy-button">Купить</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <img src="https://via.placeholder.com/250" alt="Item 2">
+            <div class="card-content">
+                <div class="card-title">Товар 2</div>
+                <div class="card-price">1500 грн</div>
+                <div class="card-buttons">
+                    <button class="details-button">Подробнее</button>
+                    <button class="buy-button">Купить</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <img src="https://via.placeholder.com/250" alt="Item 3">
+            <div class="card-content">
+                <div class="card-title">Товар 3</div>
+                <div class="card-price">1200 грн</div>
+                <div class="card-buttons">
+                    <button class="details-button">Подробнее</button>
+                    <button class="buy-button">Купить</button>
+                </div>
+            </div>
+        </div>
     </div>
+    
+    <!-- Футер -->
+    <footer>
+        <p>Контакты: support@mystore.com | Телефон: +380 12 345 67 89</p>
+        <p>&copy; 2025 My Stylish Store. Все права защищены.</p>
+    </footer>
 </body>
 </html>
