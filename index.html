@@ -25,8 +25,23 @@
             0% { background-position: 0% 50%; }
             100% { background-position: 100% 50%; }
         }
-        h2 {
-            color: #ffb6c1;
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        .category {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #ffb6c1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
         }
         .gallery {
             display: flex;
@@ -47,10 +62,6 @@
         .card img {
             width: 100%;
             height: auto;
-            display: none;
-        }
-        .card img:first-child {
-            display: block;
         }
         .card-content {
             padding: 15px;
@@ -85,21 +96,15 @@
             background-color: #ffc107;
             color: #fff;
         }
-        .prev-button, .next-button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
-            color: #fff;
-            border: none;
-            padding: 5px 10px;
+        .cart-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #ffb6c1;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 50%;
             cursor: pointer;
-        }
-        .prev-button {
-            left: 10px;
-        }
-        .next-button {
-            right: 10px;
         }
         .modal {
             display: none;
@@ -132,27 +137,33 @@
 </head>
 <body>
     <h1>Happy Kids</h1>
-    <div class="intro">
-        <p>Witaj w naszym sklepie! Znajdziesz tutaj piękne ubranka i zabawki dla dzieci.</p>
-        <p>Spraw radość swojemu dziecku z Happy Kids!</p>
+
+    <!-- Панель категорій -->
+    <div class="categories">
+        <div class="category">Nowe</div>
+        <div class="category">Zabawki</div>
+        <div class="category">Tovary dla karmienia</div>
     </div>
 
-    <h2>Tovary dla karmienia</h2>
+    <!-- Галерея товарів -->
     <div class="gallery" id="productGallery"></div>
 
-    <div class="modal" id="detailsModal">
+    <!-- Іконка кошика -->
+    <div class="cart-icon" onclick="showCart()">🛒 (<span id="cartCount">0</span>)</div>
+
+    <!-- Модальне вікно кошика -->
+    <div class="modal" id="cartModal">
         <div class="modal-content">
-            <h2 id="modalTitle"></h2>
-            <p id="modalDescription"></p>
-            <button class="close-button" onclick="closeModal()">Zamknij</button>
+            <h2>Koszyk</h2>
+            <div id="cartItems"></div>
+            <button class="close-button" onclick="closeCart()">Zamknij</button>
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2025 Happy Kids. Wszystkie prawa zastrzeżone.</p>
-    </footer>
-<script>
-    const products = [
+    <script>
+        let cart = [];
+
+        const products = [
         {
             title: "Zestaw do karmienia dziecka",
             price: "127,16 zł",
@@ -235,35 +246,15 @@
             description: "Zestaw obiadowy dla dzieci, w skład którego wchodzi talerzyk z przyssawką oraz sztućce wykonane z silikonu."
         }
     ];
-        const gallery = document.getElementById("productGallery");
+const gallery = document.getElementById("productGallery");
 
-        products.forEach((product) => {
+        products.forEach((product, index) => {
             const card = document.createElement("div");
             card.className = "card";
 
-            const imgContainer = document.createElement("div");
-            imgContainer.className = "img-container";
-
-            product.images.forEach((imgSrc, index) => {
-                const img = document.createElement("img");
-                img.src = imgSrc;
-                img.style.display = index === 0 ? "block" : "none";
-                imgContainer.appendChild(img);
-            });
-
-            const prevButton = document.createElement("button");
-            prevButton.className = "prev-button";
-            prevButton.innerText = "<";
-            prevButton.onclick = () => showPrevImage(imgContainer);
-
-            const nextButton = document.createElement("button");
-            nextButton.className = "next-button";
-            nextButton.innerText = ">";
-            nextButton.onclick = () => showNextImage(imgContainer);
-
-            imgContainer.appendChild(prevButton);
-            imgContainer.appendChild(nextButton);
-            card.appendChild(imgContainer);
+            const img = document.createElement("img");
+            img.src = product.images[0];
+            card.appendChild(img);
 
             const content = document.createElement("div");
             content.className = "card-content";
@@ -279,16 +270,11 @@
             const buttons = document.createElement("div");
             buttons.className = "card-buttons";
 
-            const detailsButton = document.createElement("button");
-            detailsButton.className = "details-button";
-            detailsButton.innerText = "Szczegóły";
-            detailsButton.onclick = () => showDetails(product.title, product.description);
-
             const buyButton = document.createElement("button");
             buyButton.className = "buy-button";
             buyButton.innerText = "Kup teraz";
+            buyButton.onclick = () => addToCart(index);
 
-            buttons.appendChild(detailsButton);
             buttons.appendChild(buyButton);
             content.appendChild(title);
             content.appendChild(price);
@@ -297,30 +283,21 @@
             gallery.appendChild(card);
         });
 
-        function showDetails(title, description) {
-            document.getElementById("modalTitle").innerText = title;
-            document.getElementById("modalDescription").innerText = description;
-            document.getElementById("detailsModal").style.display = "flex";
+        function addToCart(index) {
+            cart.push(products[index]);
+            document.getElementById("cartCount").innerText = cart.length;
+            alert(`${products[index].title} dodano do koszyka!`);
         }
 
-        function closeModal() {
-            document.getElementById("detailsModal").style.display = "none";
+        function showCart() {
+            const cartModal = document.getElementById("cartModal");
+            const cartItems = document.getElementById("cartItems");
+            cartItems.innerHTML = cart.map(item => `<p>${item.title} - ${item.price}</p>`).join('');
+            cartModal.style.display = "flex";
         }
 
-        function showPrevImage(container) {
-            const images = container.querySelectorAll("img");
-            let currentIndex = Array.from(images).findIndex(img => img.style.display === "block");
-            images[currentIndex].style.display = "none";
-            currentIndex = (currentIndex - 1 + images.length) % images.length;
-            images[currentIndex].style.display = "block";
-        }
-
-        function showNextImage(container) {
-            const images = container.querySelectorAll("img");
-            let currentIndex = Array.from(images).findIndex(img => img.style.display === "block");
-            images[currentIndex].style.display = "none";
-            currentIndex = (currentIndex + 1) % images.length;
-            images[currentIndex].style.display = "block";
+        function closeCart() {
+            document.getElementById("cartModal").style.display = "none";
         }
     </script>
 </body>
