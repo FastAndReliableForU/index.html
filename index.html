@@ -30,10 +30,15 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             text-align: left;
+            position: relative;
         }
         .card img {
             width: 100%;
             height: auto;
+            display: none;
+        }
+        .card img:first-child {
+            display: block;
         }
         .card-content {
             padding: 15px;
@@ -68,11 +73,48 @@
             background-color: #ffc107;
             color: #fff;
         }
-        footer {
-            margin-top: 40px;
+        .prev-button, .next-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .prev-button {
+            left: 10px;
+        }
+        .next-button {
+            right: 10px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fff;
             padding: 20px;
-            background-color: #ffe4e1;
-            color: #5a5a5a;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            text-align: left;
+        }
+        .close-button {
+            background-color: #ffb6c1;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -85,59 +127,122 @@
 
     <h2>Tovary dla karmienia</h2>
     <div class="gallery">
-        <!-- Cards start -->
-        <div class="card">
-            <img src="https://img.kwcdn.com/product/fancy/1370ceba-c59f-4dd2-9c7c-f5c3398a3b4a.jpg" alt="Zestaw do karmienia">
-            <div class="card-content">
-                <div class="card-title">Zestaw do karmienia</div>
-                <div class="card-price">127,16 zł</div>
-                <div class="card-buttons">
-                    <button class="details-button">Szczegóły</button>
-                    <button class="buy-button">Kup teraz</button>
-                </div>
-            </div>
-        </div>
+        <!-- Cards will be added here -->
+    </div>
 
-        <div class="card">
-            <img src="https://img.kwcdn.com/product/fancy/c811fed2-6d13-452e-afb3-f0c9da2f2db6.jpg" alt="Kubek treningowy">
-            <div class="card-content">
-                <div class="card-title">Kubek treningowy</div>
-                <div class="card-price">29,99 zł</div>
-                <div class="card-buttons">
-                    <button class="details-button">Szczegóły</button>
-                    <button class="buy-button">Kup teraz</button>
-                </div>
-            </div>
+    <div class="modal" id="detailsModal">
+        <div class="modal-content">
+            <h2 id="modalTitle"></h2>
+            <p id="modalDescription"></p>
+            <button class="close-button" onclick="closeModal()">Zamknij</button>
         </div>
-
-        <div class="card">
-            <img src="https://img.kwcdn.com/product/fancy/0833700e-26f5-4fc6-a93c-aed5806eab45.jpg" alt="Zestaw do karmienia z imieniem">
-            <div class="card-content">
-                <div class="card-title">Zestaw do karmienia z imieniem</div>
-                <div class="card-price">127,16 zł</div>
-                <div class="card-buttons">
-                    <button class="details-button">Szczegóły</button>
-                    <button class="buy-button">Kup teraz</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="https://img.kwcdn.com/product/fancy/97d2d964-d02d-434e-b727-b09f96284103.jpg" alt="Miseczka z przyssawką">
-            <div class="card-content">
-                <div class="card-title">Miseczka z przyssawką</div>
-                <div class="card-price">53,60 zł</div>
-                <div class="card-buttons">
-                    <button class="details-button">Szczegóły</button>
-                    <button class="buy-button">Kup teraz</button>
-                </div>
-            </div>
-        </div>
-        <!-- Cards end -->
     </div>
 
     <footer>
         <p>&copy; 2025 Happy Kids. Wszystkie prawa zastrzeżone.</p>
     </footer>
+
+    <script>
+        const products = [
+            {
+                title: "Zestaw do karmienia",
+                price: "127,16 zł",
+                images: [
+                    "https://img.kwcdn.com/product/fancy/1370ceba-c59f-4dd2-9c7c-f5c3398a3b4a.jpg",
+                    "https://via.placeholder.com/250"
+                ],
+                description: "Zestaw do karmienia dla maluchów w wieku 0-3 lata, wykonany z silikonu spożywczego, wolny od BPA."
+            },
+            // Add other products here
+        ];
+
+        const gallery = document.querySelector(".gallery");
+
+        products.forEach((product, index) => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const imgContainer = document.createElement("div");
+            imgContainer.className = "img-container";
+
+            product.images.forEach((imgSrc, imgIndex) => {
+                const img = document.createElement("img");
+                img.src = imgSrc;
+                img.style.display = imgIndex === 0 ? "block" : "none";
+                imgContainer.appendChild(img);
+            });
+
+            const prevButton = document.createElement("button");
+            prevButton.className = "prev-button";
+            prevButton.innerText = "<";
+            prevButton.onclick = () => showPrevImage(imgContainer);
+
+            const nextButton = document.createElement("button");
+            nextButton.className = "next-button";
+            nextButton.innerText = ">";
+            nextButton.onclick = () => showNextImage(imgContainer);
+
+            imgContainer.appendChild(prevButton);
+            imgContainer.appendChild(nextButton);
+            card.appendChild(imgContainer);
+
+            const content = document.createElement("div");
+            content.className = "card-content";
+
+            const title = document.createElement("div");
+            title.className = "card-title";
+            title.innerText = product.title;
+
+            const price = document.createElement("div");
+            price.className = "card-price";
+            price.innerText = product.price;
+
+            const buttons = document.createElement("div");
+            buttons.className = "card-buttons";
+
+            const detailsButton = document.createElement("button");
+            detailsButton.className = "details-button";
+            detailsButton.innerText = "Szczegóły";
+            detailsButton.onclick = () => showDetails(product.title, product.description);
+
+            const buyButton = document.createElement("button");
+            buyButton.className = "buy-button";
+            buyButton.innerText = "Kup teraz";
+
+            buttons.appendChild(detailsButton);
+            buttons.appendChild(buyButton);
+            content.appendChild(title);
+            content.appendChild(price);
+            content.appendChild(buttons);
+            card.appendChild(content);
+            gallery.appendChild(card);
+        });
+
+        function showDetails(title, description) {
+            document.getElementById("modalTitle").innerText = title;
+            document.getElementById("modalDescription").innerText = description;
+            document.getElementById("detailsModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("detailsModal").style.display = "none";
+        }
+
+        function showPrevImage(container) {
+            const images = container.querySelectorAll("img");
+            let currentIndex = Array.from(images).findIndex(img => img.style.display === "block");
+            images[currentIndex].style.display = "none";
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            images[currentIndex].style.display = "block";
+        }
+
+        function showNextImage(container) {
+            const images = container.querySelectorAll("img");
+            let currentIndex = Array.from(images).findIndex(img => img.style.display === "block");
+            images[currentIndex].style.display = "none";
+            currentIndex = (currentIndex + 1) % images.length;
+            images[currentIndex].style.display = "block";
+        }
+    </script>
 </body>
 </html>
