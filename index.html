@@ -13,17 +13,12 @@
             text-align: center;
             color: #5a5a5a;
         }
-        h1 {
-            font-size: 4em;
+        .logo {
             margin: 20px 0;
-            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 2s infinite linear;
         }
-        @keyframes shine {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
+        .logo img {
+            width: 200px;
+            height: auto;
         }
         .categories {
             display: flex;
@@ -32,8 +27,8 @@
             padding: 20px;
         }
         .category {
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
             background-color: #ffb6c1;
             display: flex;
@@ -41,6 +36,8 @@
             align-items: center;
             color: white;
             font-weight: bold;
+            font-size: 0.9em;
+            text-align: center;
             cursor: pointer;
         }
         .gallery {
@@ -57,7 +54,6 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             text-align: left;
-            position: relative;
         }
         .card img {
             width: 100%;
@@ -136,7 +132,10 @@
     </style>
 </head>
 <body>
-    <h1>Happy Kids</h1>
+    <!-- Логотип -->
+    <div class="logo">
+        <img src="https://your-logo-url.com/logo.jpg" alt="Happy Kids">
+    </div>
 
     <!-- Панель категорій -->
     <div class="categories">
@@ -246,7 +245,7 @@
             description: "Zestaw obiadowy dla dzieci, w skład którego wchodzi talerzyk z przyssawką oraz sztućce wykonane z silikonu."
         }
     ];
-const gallery = document.getElementById("productGallery");
+        const gallery = document.getElementById("productGallery");
 
         products.forEach((product, index) => {
             const card = document.createElement("div");
@@ -270,11 +269,17 @@ const gallery = document.getElementById("productGallery");
             const buttons = document.createElement("div");
             buttons.className = "card-buttons";
 
+            const detailsButton = document.createElement("button");
+            detailsButton.className = "details-button";
+            detailsButton.innerText = "Opis towaru";
+            detailsButton.onclick = () => showDetails(product.title, product.description);
+
             const buyButton = document.createElement("button");
             buyButton.className = "buy-button";
             buyButton.innerText = "Kup teraz";
             buyButton.onclick = () => addToCart(index);
 
+            buttons.appendChild(detailsButton);
             buttons.appendChild(buyButton);
             content.appendChild(title);
             content.appendChild(price);
@@ -287,6 +292,13 @@ const gallery = document.getElementById("productGallery");
             cart.push(products[index]);
             document.getElementById("cartCount").innerText = cart.length;
             alert(`${products[index].title} dodano do koszyka!`);
+        }
+
+        function showDetails(title, description) {
+            const modal = document.getElementById("cartModal");
+            const modalContent = document.getElementById("cartItems");
+            modalContent.innerHTML = `<h3>${title}</h3><p>${description}</p>`;
+            modal.style.display = "flex";
         }
 
         function showCart() {
