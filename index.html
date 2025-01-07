@@ -13,7 +13,19 @@
             text-align: center;
             color: #5a5a5a;
         }
-        h1, h2 {
+        h1 {
+            font-size: 4em;
+            margin: 20px 0;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 2s infinite linear;
+        }
+        @keyframes shine {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        h2 {
             color: #ffb6c1;
         }
         .gallery {
@@ -126,9 +138,7 @@
     </div>
 
     <h2>Tovary dla karmienia</h2>
-    <div class="gallery">
-        <!-- Cards will be added here -->
-    </div>
+    <div class="gallery" id="productGallery"></div>
 
     <div class="modal" id="detailsModal">
         <div class="modal-content">
@@ -141,34 +151,112 @@
     <footer>
         <p>&copy; 2025 Happy Kids. Wszystkie prawa zastrzeżone.</p>
     </footer>
+<script>
+    const products = [
+        {
+            title: "Zestaw do karmienia dziecka",
+            price: "127,16 zł",
+            images: [
+                "https://img.kwcdn.com/product/fancy/1370ceba-c59f-4dd2-9c7c-f5c3398a3b4a.jpg",
+                "https://img.kwcdn.com/product/fancy/1370ceba-c59f-4dd2-9c7c-f5c3398a3b4a2.jpg"
+            ],
+            description: "Zestaw do karmienia dziecka wykonany z wysokiej jakości silikonu spożywczego, idealny prezent na baby shower."
+        },
+        {
+            title: "Kubek treningowy",
+            price: "29,99 zł",
+            images: [
+                "https://img.kwcdn.com/product/fancy/c811fed2-6d13-452e-afb3-f0c9da2f2db6.jpg",
+                "https://img.kwcdn.com/product/fancy/c811fed2-6d13-452e-afb3-f0c9da2f2db62.jpg"
+            ],
+            description: "Miękki silikonowy kubek treningowy dla niemowląt z pokrywką i słomką, szczelny i łatwy w użyciu."
+        },
+        {
+            title: "Zestaw do karmienia z imieniem",
+            price: "127,16 zł",
+            images: [
+                "https://img.kwcdn.com/product/fancy/0833700e-26f5-4fc6-a93c-aed5806eab45.jpg",
+                "https://img.kwcdn.com/product/fancy/0833700e-26f5-4fc6-a93c-aed5806eab45_2.jpg"
+            ],
+            description: "Zestaw silikonowy do karmienia z możliwością personalizacji, zawiera talerz, kubek i łyżkę."
+        },
+        {
+            title: "Śliniaki wodoodporne",
+            price: "83,97 zł",
+            images: [
+                "https://img.kwcdn.com/product/fancy/ca5f4f5b-ca92-4723-9030-ac7544f51ac0.jpg",
+                "https://img.kwcdn.com/product/fancy/ca5f4f5b-ca92-4723-9030-ac7544f51ac02.jpg"
+            ],
+            description: "Zestaw trzech śliniaków wykonanych z wodoodpornego silikonu, idealnych dla niemowląt i małych dzieci."
+        },
+        {
+            title: "Zestaw z przyssawką",
+            price: "53,60 zł",
+            images: [
+                "https://img.kwcdn.com/product/fancy/60449aac-0ee1-480c-8d7f-dd2a054fe99f.jpg",
+                "https://img.kwcdn.com/product/fancy/60449aac-0ee1-480c-8d7f-dd2a054fe99f2.jpg"
+            ],
+            description: "Zestaw do karmienia z miseczką z przyssawką oraz łyżeczką. Idealny prezent świąteczny dla niemowląt."
+        },
+        {
+            title: "Silikonowy kubek treningowy",
+            price: "47,55 zł",
+            images: [
+                "https://img.kwcdn.com/product/fancy/821feb40-75ec-421a-9bd7-c0373aec74db.jpg",
+                "https://img.kwcdn.com/product/fancy/821feb40-75ec-421a-9bd7-c0373aec74db2.jpg"
+            ],
+            description: "Personalizowany silikonowy kubek treningowy z pokrywką i słomką, odporny na stłuczenia, wolny od BPA."
+        },
+        {
+            title: "Mini kubek treningowy",
+            price: "25,26 zł",
+            images: [
+                "https://img.kwcdn.com/product/fancy/91c57f1e-591b-4311-a55d-ca11d73300d0.jpg",
+                "https://img.kwcdn.com/product/fancy/91c57f1e-591b-4311-a55d-ca11d73300d02.jpg"
+            ],
+            description: "Mały silikonowy kubek do nauki picia z pokrywką i słomką. Idealny dla dzieci od 6 miesięcy."
+        },
+        {
+            title: "Zestaw z miseczką i sztućcami",
+            price: "53,60 zł",
+            images: [
+                "https://img.kwcdn.com/product/fancy/97d2d964-d02d-434e-b727-b09f96284103.jpg",
+                "https://img.kwcdn.com/product/fancy/97d2d964-d02d-434e-b727-b09f962841032.jpg"
+            ],
+            description: "Zestaw do karmienia składający się z miseczki i sztućców, wykonany z silikonu klasy spożywczej."
+        },
+        {
+            title: "Silikonowy zestaw obiadowy",
+            price: "83,60 zł",
+            images: [
+                "https://img.kwcdn.com/product/fancy/45c2d388-45a6-44d8-a128-cb8dd78a1fd2.jpg",
+                "https://img.kwcdn.com/product/fancy/45c2d388-45a6-44d8-a128-cb8dd78a1fd22.jpg"
+            ],
+            description: "Zestaw obiadowy dla dzieci, w skład którego wchodzi talerzyk z przyssawką oraz sztućce wykonane z silikonu."
+        },
+        {
+            title: "Grawerowany zestaw z miseczką",
+            price: "53,60 zł",
+            images: [
+                "https://img.kwcdn.com/product/fancy/97d2d964-d02d-434e-b727-b09f96284103.jpg",
+                "https://img.kwcdn.com/product/fancy/97d2d964-d02d-434e-b727-b09f962841032.jpg"
+            ],
+            description: "Grawerowany zestaw do karmienia z miseczką, sztućcami i możliwością personalizacji."
+        }
+    ];
+        const gallery = document.getElementById("productGallery");
 
-    <script>
-        const products = [
-            {
-                title: "Zestaw do karmienia",
-                price: "127,16 zł",
-                images: [
-                    "https://img.kwcdn.com/product/fancy/1370ceba-c59f-4dd2-9c7c-f5c3398a3b4a.jpg",
-                    "https://via.placeholder.com/250"
-                ],
-                description: "Zestaw do karmienia dla maluchów w wieku 0-3 lata, wykonany z silikonu spożywczego, wolny od BPA."
-            },
-            // Add other products here
-        ];
-
-        const gallery = document.querySelector(".gallery");
-
-        products.forEach((product, index) => {
+        products.forEach((product) => {
             const card = document.createElement("div");
             card.className = "card";
 
             const imgContainer = document.createElement("div");
             imgContainer.className = "img-container";
 
-            product.images.forEach((imgSrc, imgIndex) => {
+            product.images.forEach((imgSrc, index) => {
                 const img = document.createElement("img");
                 img.src = imgSrc;
-                img.style.display = imgIndex === 0 ? "block" : "none";
+                img.style.display = index === 0 ? "block" : "none";
                 imgContainer.appendChild(img);
             });
 
