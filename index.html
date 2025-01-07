@@ -3,42 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Store</title>
+    <title>My Stylish Store</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            font-family: 'Georgia', serif;
+            background-color: #fdfcf9;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             text-align: center;
-            color: #333;
+            color: #5a5a5a;
         }
         h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #007bff;
+            font-size: 3em;
+            margin: 20px 0;
+            color: #b68958;
         }
-        p {
-            font-size: 1.2em;
-            margin: 10px 0;
-        }
-        .container {
+        .intro {
             padding: 20px;
-            background-color: #ffffff;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            font-size: 1.2em;
+        }
+        .gallery {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+        .gallery img {
+            width: 250px;
+            height: auto;
             border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Добро пожаловать в наш магазин!</h1>
-        <p>Мы предлагаем широкий ассортимент товаров с отличным качеством и быстрой доставкой.</p>
-        <p>Следите за обновлениями — скоро здесь появятся лучшие предложения!</p>
+    <h1>My Stylish Store</h1>
+    <div class="intro">
+        <p>Добро пожаловать! Мы предлагаем вам стильные товары и уникальные предложения.</p>
+        <p>Следите за обновлениями и выбирайте лучшее!</p>
+    </div>
+    <div class="gallery">
+        <img src="https://via.placeholder.com/250" alt="Item 1">
+        <img src="https://via.placeholder.com/250" alt="Item 2">
+        <img src="https://via.placeholder.com/250" alt="Item 3">
+        <img src="https://via.placeholder.com/250" alt="Item 4">
     </div>
 </body>
 </html>
